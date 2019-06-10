@@ -5,6 +5,8 @@ from todoserver import PORT, API, V1, EVENT, StoppableServer, RequestHandler
 import json
 import pytest
 
+# reference https://github.com/malony0/pbl.TODOServer/blob/master/test_server.py
+
 URL = "http://localhost:"+str(PORT)+'/'+API+'/'+V1+'/'+EVENT
 headers = {"Content-Type" : "application/json",}
 
