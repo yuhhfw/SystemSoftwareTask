@@ -52,7 +52,6 @@ class RequestHandler(BaseHTTPRequestHandler):
         parsed_path = urlparse(self.path)
         path_elements = parsed_path.path.split('/')[1:]
         response = {}
-        
         if len(path_elements[3]) < 3:
             self.send_response(404)
             self.end_headers()
