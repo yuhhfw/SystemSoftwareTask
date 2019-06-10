@@ -1,9 +1,10 @@
 # SystemSoftwareTask
 
 レポート課題: TODO管理サービス用のHTTPサーバを作成
-pytest作成は断念
-エラーが直らない
+
 ---
+
+pytest作成は断念/エラーが直らない
 
 ## 概要
 

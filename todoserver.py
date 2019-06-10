@@ -96,9 +96,18 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
         return
 
+class TestServer(HTTPServer):
+    def run(self):
+        try:
+            self.serve_forever()
+        except KeyboardInterrupt:
+            pass
+        finally:
+            self.server_close()
+
 
 def main():
-    server = HTTPServer(('', 8080), RequestHandler)
+    with TestServer(('', 8080), RequestHandler) as server:
     server.serve_forever()
 
 
