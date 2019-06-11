@@ -35,16 +35,22 @@ class RequestHandler(BaseHTTPRequestHandler):
                     self.send_response(404)
                     self.end_headers()
                 else:
-                    self.send_response(200, events[id])
+                    self.send_response(200)
                     self.end_headers()
+                    if events[id] != None:
+                        js_response = json.dumps(events[id])
+                        self.wfile.write('{}\n'.format(js_response).encode('utf-8'))
             # intじゃなかったとか
             except ValueError as e:
                 print(e)
                 self.send_response(400)
                 self.end_headers()
         else:
-            self.send_response(200,event_data)
+            self.send_response(200)
             self.end_headers()
+            if event_data != None:
+                js_response = json.dumps(event_data)
+                self.wfile.write('{}\n'.format(js_response).encode('utf-8'))
         return
 
 
@@ -52,7 +58,6 @@ class RequestHandler(BaseHTTPRequestHandler):
         parsed_path = urlparse(self.path)
         path_elements = parsed_path.path.split('/')[1:]
         response = {}
-
         if len(path_elements) < 3:
             self.send_response(404)
             self.end_headers()
@@ -61,6 +66,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             if path_elements[:3] == [API, V1, EVENT]:
                 pass
             else:
+                print("koko")
                 self.send_response(404)
                 self.end_headers()
             return
@@ -80,21 +86,31 @@ class RequestHandler(BaseHTTPRequestHandler):
             if not "{0:%Y-%m-%dT%H:%M:%S%z}".format.match(event[DEADLINE]):
                 # 日付入力ミス
                 response = {STATUS: FAILURE, MESSAGE: INVALID_DATE_FORMAT}
-                self.send_response(200, response)
+                self.send_response(200)
                 self.end_headers()
+                if response != None:
+                    js_response = json.dumps(response)
+                    self.wfile.write('{}\n'.format(js_response).encode('utf-8'))
+                    self.send_response(response)
             else:
                 # 入力成功
                id = len(event_data[EVENTS])
                event[ID] = id
                event_data[EVENTS].append(event)
                response = {STATUS: SUCCESS, MESSAGE: REGGISTERED, ID: id}
-               self.send_response(200, response)
+               self.send_response(200)
                self.end_headers()
+               if response != None:
+                    js_response = json.dumps(response)
+                    self.wfile.write('{}\n'.format(js_response).encode('utf-8'))
         else:
             # 入力ミス
             response = {STATUS: FAILURE, MESSAGE: INVALID_EVENT_FORMAT}
-            self.send_response(200, response)
+            self.send_response(200)
             self.end_headers()
+            if response != None:
+                js_response = json.dumps(response)
+                self.wfile.write('{}\n'.format(js_response).encode('utf-8'))
         return
 
 class UpdateServer(HTTPServer):
