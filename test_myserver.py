@@ -1,11 +1,11 @@
 from multiprocessing import Process
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
-from todoserver import PORT, API, V1, EVENT, StoppableServer, RequestHandler
+from todoserver import UpdateServer, RequestHandler
 import json
 import pytest
 
-URL = "http://localhost:"+str(PORT)+'/'+API+'/'+V1+'/'+EVENT
+URL = "http://localhost:"+str(PORT)+'/'+"api"+'/'+"v1"+'/'+"event"
 headers = {"Content-Type" : "application/json",}
 
 def f():
