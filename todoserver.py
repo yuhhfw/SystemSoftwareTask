@@ -108,7 +108,7 @@ class UpdateServer(HTTPServer):
 
 def main():
     with UpdateServer(('', 8080), RequestHandler) as server:
-    server.serve_forever()
+        server.serve_forever()
 
 
 if __name__ == '__main__':
