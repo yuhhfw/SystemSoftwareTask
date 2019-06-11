@@ -66,11 +66,11 @@ def GET_id_valid():
         valid_data = {"deadline": "2019-06-11T14:00:00+09:00", "title": "レポート提出", "memo": ""}
         req = Request(URL, json.dumps(valid_data).encode(), headers)
         with urlopen(req) as res:
-        assert res.getcode() == 200
+            assert res.getcode() == 200
         valid_data = {"deadline": "2019-06-11T14:00:00+09:00", "title": "レポート提出", "memo": ""}
         req = Request(URL, json.dumps(valid_data).encode(), headers)
         with urlopen(req) as res:
-        assert res.getcode() == 200
+            assert res.getcode() == 200
         body = json.load(urlopen(Request(URL)))
         maxId = len(body["events"])-1
     
