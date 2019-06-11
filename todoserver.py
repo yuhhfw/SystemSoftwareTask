@@ -96,7 +96,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
         return
 
-class TestServer(HTTPServer):
+class UpdateServer(HTTPServer):
     def run(self):
         try:
             self.serve_forever()
@@ -107,7 +107,7 @@ class TestServer(HTTPServer):
 
 
 def main():
-    with TestServer(('', 8080), RequestHandler) as server:
+    with UpdateServer(('', 8080), RequestHandler) as server:
     server.serve_forever()
 
 

@@ -5,13 +5,13 @@ from todoserver import PORT, API, V1, EVENT, StoppableServer, RequestHandler
 import json
 import pytest
 
-# reference https://github.com/malony0/pbl.TODOServer/blob/master/test_server.py
+# ref https://github.com/malony0/pbl.TODOServer/blob/master/test_server.py
 
 URL = "http://localhost:"+str(PORT)+'/'+API+'/'+V1+'/'+EVENT
 headers = {"Content-Type" : "application/json",}
 
 def f():
-    with TestServer(('', PORT), RequestHandler) as server:
+    with UpdateServer(('', PORT), RequestHandler) as server:
         server.serve_forever()
         return server
 
