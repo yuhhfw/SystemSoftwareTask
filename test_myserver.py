@@ -9,7 +9,7 @@ URL = "http://localhost:"+str("8080")+'/'+"api"+'/'+"v1"+'/'+"event"
 headers = {"Content-Type" : "application/json",}
 
 def f():
-    with UpdateServer(('', PORT), RequestHandler) as server:
+    with UpdateServer(('', "8080"), RequestHandler) as server:
         server.serve_forever()
         return server
 
