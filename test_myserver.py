@@ -29,11 +29,12 @@ def test_all():
 def POST_valid():
     valid_data = {"deadline": "2019-06-11T14:00:00+09:00", "title": "レポート提出", "memo": ""}
     req = Request(URL, json.dumps(valid_data).encode(), headers)
-    with urlopen(req) as res:
-        body = json.load(res)
+    try:
+        body = json.load(urlopen(req))
         assert res.getcode() == 200
         assert body["status"] == "success"
         assert body["message"] == "registered"
+    except Exception as e:
         return
     assert False
 
