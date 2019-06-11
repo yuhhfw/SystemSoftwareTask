@@ -5,7 +5,7 @@ from todoserver import UpdateServer, RequestHandler
 import json
 import pytest
 
-URL = "http://localhost:"+str(PORT)+'/'+"api"+'/'+"v1"+'/'+"event"
+URL = "http://localhost:"+str("8080")+'/'+"api"+'/'+"v1"+'/'+"event"
 headers = {"Content-Type" : "application/json",}
 
 def f():
