@@ -28,7 +28,7 @@ def test_all():
 ## POST
 def POST_valid():
     valid_data = {"deadline": "2019-06-11T14:00:00+09:00", "title": "report", "memo": ""}
-    req = Request(URL, json.dumps(valid_data).encode(), headers)
+    req = Request(headers, json.dumps(valid_data).encode(), URL)
     try:
         body = json.load(urlopen(req))
         assert urlopen(req).getcode() == 200
@@ -40,7 +40,7 @@ def POST_valid():
 
 def POST_invalid():
     invalid_data = {"deadline": "2019/06/11T14:00:00", "title": "report", "memo": ""}
-    req = Request(URL, json.dumps(invalid_data).encode(), headers)
+    req = Request(headers, json.dumps(invalid_data).encode(), URL)
     try:
         urlopen(req)
     except HTTPError as e:
@@ -53,6 +53,7 @@ def POST_invalid():
 ### GET
 def GET_all():
     req = Request(URL)
+    # 成功前提なのでtryはつかわない
     with urlopen(req) as res:
         body = json.load(res)
         assert res.getcode() == 200
@@ -68,7 +69,7 @@ def GET_id_valid():
             # 最低2つイベントを発生
             POST()
             POST()
-            body = json.load(urlopen(Request(URL)))
+            body = json.load(res)
             maxId = len(body["events"])-1
     
     # test
@@ -106,7 +107,7 @@ def GET_id_invalid():
 
 def POST():
     valid_data = {"deadline": "2019-06-11T14:00:00+09:00", "title": "report", "memo": ""}
-    req = Request(URL, json.dumps(valid_data).encode(), headers)
+    req = Request(headers, json.dumps(valid_data).encode(), URL)
     try:
         res = urlopen(req)
         assert res.getcode() == 200
