@@ -78,13 +78,13 @@ def GET_id_valid():
     # test
     minReq = URL + '/' + str(0)
     maxReq = URL + '/' + str(maxId)
-    #req_min = Request(minReq)
-    #req_max = Request(maxReq)
-    with urlopen(minReq) as res:
+    req_min = Request(minReq)
+    req_max = Request(maxReq)
+    with urlopen(req_min) as res:
         body = json.load(res)
         assert res.getcode() == 200
         assert type(body) == dict
-    with urlopen(maxReq) as res:
+    with urlopen(req_max) as res:
         body = json.load(res)
         assert res.getcode() == 200
         assert type(body) == dict
