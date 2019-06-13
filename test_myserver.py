@@ -66,14 +66,8 @@ def GET_id_valid():
         maxId = len(body["events"])-1
         if (maxId < 1):
             # 最低2つイベントを発生
-            valid_data = {"deadline": "2019-06-11T14:00:00+09:00", "title": "report", "memo": ""}
-            req_p = Request(URL, json.dumps(valid_data).encode(), headers)
-            with urlopen(req_p) as res_p:
-                assert res_p.getcode() == 200
-            valid_data2 = {"deadline": "2019-06-12T14:00:00+09:00", "title": "report", "memo": ""}
-            req_p2 = Request(URL, json.dumps(valid_data2).encode(), headers)
-            with urlopen(req_p2) as res_p2:
-                assert res_p2.getcode() == 200
+            POST()
+            POST()
             body = json.load(urlopen(Request(URL)))
             maxId = len(body["events"])-1
     
@@ -109,3 +103,11 @@ def GET_id_invalid():
         assert e.code == 404
     else:
         assert False    
+
+def POST():
+    valid_data = {"deadline": "2019-06-11T14:00:00+09:00", "title": "report", "memo": ""}
+    req = Request(URL, json.dumps(valid_data).encode(), headers)
+    with urlopen(req) as res:
+        assert res.getcode() == 200
+    return
+    
