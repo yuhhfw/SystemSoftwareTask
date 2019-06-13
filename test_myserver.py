@@ -107,7 +107,12 @@ def GET_id_invalid():
 def POST():
     valid_data = {"deadline": "2019-06-11T14:00:00+09:00", "title": "report", "memo": ""}
     req = Request(URL, json.dumps(valid_data).encode(), headers)
-    with urlopen(req) as res:
+    try:
+        res = urlopen(req)
         assert res.getcode() == 200
+    except HTTPError as e:
+        assert e.code == 404
+    else:
+        assert False
     return
     
