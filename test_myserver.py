@@ -48,7 +48,6 @@ def POST_invalid():
         return
     except URLError as e:
         pass
-    assert False
 
 ### GET
 def GET_all():
