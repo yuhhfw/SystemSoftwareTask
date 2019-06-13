@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 from http.server import HTTPServer, BaseHTTPRequestHandler
-from urllib.parse import urlparse
+from urllib.parse import urlparse, parse_qs
 import json
 
 API = "api";
@@ -57,6 +57,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         parsed_path = urlparse(self.path)
+        #parsed_query = parse_qs(parsed_path.query)
         path_elements = parsed_path.path.split('/')[1:]
         response = {}
         if len(path_elements) < 3:
@@ -67,16 +68,16 @@ class RequestHandler(BaseHTTPRequestHandler):
             if path_elements[:3] == [API, V1, EVENT]:
                 pass
             else:
-                print("koko")
                 self.send_response(404)
                 self.end_headers()
-            return
+                return
 
         # 入力部
         try:
             content_len = int(self.headers.get('content-length'))
             event = json.loads(self.rfile.read(content_len).decode('utf-8'))
         except Exception as e:
+            print(e)
             self.send_response(400)
             self.end_headers()
             return
