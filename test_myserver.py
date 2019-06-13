@@ -5,7 +5,7 @@ from todoserver import UpdateServer, RequestHandler
 import json
 import pytest
 
-URL = "http://localhost:"+str("8080")+'/'+"api"+'/'+"v1"+'/'+"event"
+URL = "http://localhost:"+str(8080)+'/'+"api"+'/'+"v1"+'/'+"event"
 headers = {"Content-Type" : "application/json",}
 
 def f():
@@ -31,7 +31,6 @@ def POST_valid():
     req = Request(URL, json.dumps(valid_data).encode(), headers)
     try:
         body = json.load(urlopen(req))
-        print(str(body))
         assert res.getcode() == 200
         assert body["status"] == "success"
         assert body["message"] == "registered"
@@ -68,7 +67,7 @@ def GET_id_valid():
         if (maxId < 1):
             # 最低2つイベントを発生
             valid_data = {"deadline": "2019-06-11T14:00:00+09:00", "title": "report", "memo": ""}
-            req_p = "f" + Request(URL, json.dumps(valid_data).encode(), headers)
+            req_p = Request(URL, json.dumps(valid_data).encode(), headers)
             with urlopen(req_p) as res_p:
                 assert res_p.getcode() == 200
             valid_data2 = {"deadline": "2019-06-12T14:00:00+09:00", "title": "report", "memo": ""}
