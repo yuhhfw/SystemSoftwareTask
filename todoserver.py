@@ -4,6 +4,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
 import json
 import codecs
+import datetime
 
 API = "api";
 V1 = "v1";
@@ -59,6 +60,7 @@ class RequestHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         parsed_path = urlparse(self.path)
         #parsed_query = parse_qs(parsed_path.query)
+        #print("parsed_query: " + str(parsed_query))
         path_elements = parsed_path.path.split('/')[1:]
         response = {}
         if len(path_elements) < 3:
@@ -77,20 +79,31 @@ class RequestHandler(BaseHTTPRequestHandler):
         try:
             content_len = int(self.headers.get('content-length'))
             temp_code = self.rfile.read(content_len).decode('utf-8')
-            print(temp_code)
-            temp_code2 = temp_code.replace('[','["').replace(',','","').replace('deadline:','deadline":"').replace('title:','title":"').replace('memo:','memo":"').replace(']','"]')
-            print(temp_code2)
+            temp_code2 = temp_code.replace('{','{"').replace(',','","').replace('deadline:','deadline":"').replace('title:','title":"').replace('memo:','memo":"').replace('}','"}').strip("'")
             event = json.loads(temp_code2)
         except Exception as e:
             print(e)
-            #print("なんでや")
             self.send_response(400)
             self.end_headers()
             return
 
         # 内容チェック
         if (DEADLINE or TITLE or MEMO) in event.keys():
-            if not "{0:%Y-%m-%dT%H:%M:%S%z}".format.match(event[DEADLINE]):
+
+            try:
+                #日付書式チェック
+                time = datetime.datetime.strptime(event[DEADLINE], '%Y-%m-%dT%H:%M:%S%z')
+                # 入力成功
+                id = len(event_data[EVENTS])
+                event[ID] = id
+                event_data[EVENTS].append(event)
+                response = {STATUS: SUCCESS, MESSAGE: REGGISTERED, ID: id}
+                self.send_response(200)
+                self.end_headers()
+                if response != None:
+                    js_response = json.dumps(response)
+                    self.wfile.write('{}\n'.format(js_response).encode('utf-8'))
+            except Exception:
                 # 日付入力ミス
                 response = {STATUS: FAILURE, MESSAGE: INVALID_DATE_FORMAT}
                 self.send_response(200)
@@ -99,17 +112,6 @@ class RequestHandler(BaseHTTPRequestHandler):
                     js_response = json.dumps(response)
                     self.wfile.write('{}\n'.format(js_response).encode('utf-8'))
                     self.send_response(response)
-            else:
-                # 入力成功
-               id = len(event_data[EVENTS])
-               event[ID] = id
-               event_data[EVENTS].append(event)
-               response = {STATUS: SUCCESS, MESSAGE: REGGISTERED, ID: id}
-               self.send_response(200)
-               self.end_headers()
-               if response != None:
-                    js_response = json.dumps(response)
-                    self.wfile.write('{}\n'.format(js_response).encode('utf-8'))
         else:
             # 入力ミス
             response = {STATUS: FAILURE, MESSAGE: INVALID_EVENT_FORMAT}
