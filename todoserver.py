@@ -3,6 +3,7 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
 import json
+import codecs
 
 API = "api";
 V1 = "v1";
@@ -75,16 +76,18 @@ class RequestHandler(BaseHTTPRequestHandler):
         # 入力部
         try:
             content_len = int(self.headers.get('content-length'))
-            event = json.loads(self.rfile.read(content_len).decode('utf-8'))
+            temp_code = self.rfile.read(content_len).decode('utf-8')
+            print(temp_code)
+            event = json.loads(temp_code)
         except Exception as e:
             print(e)
+            #print("なんでや")
             self.send_response(400)
             self.end_headers()
             return
 
         # 内容チェック
         if (DEADLINE or TITLE or MEMO) in event.keys():
-            # if iso_to_jstdt(event[DEADLINE]) == None:
             if not "{0:%Y-%m-%dT%H:%M:%S%z}".format.match(event[DEADLINE]):
                 # 日付入力ミス
                 response = {STATUS: FAILURE, MESSAGE: INVALID_DATE_FORMAT}
