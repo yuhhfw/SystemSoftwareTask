@@ -70,8 +70,10 @@ def GET_id_valid():
             # 最低2つイベントを発生
             POST()
             POST()
-            body = json.load(res)
-            maxId = len(body["events"])-1
+            req = Request(URL)
+            with urlopen(req) as res:
+                body = json.load(res)
+                maxId = len(body["events"])-1
     
     # test
     minReq = URL + '/' + str(0)
