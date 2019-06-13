@@ -28,10 +28,12 @@ def test_all():
 ## POST
 def POST_valid():
     valid_data = {"deadline": "2019-06-11T14:00:00+09:00", "title": "report", "memo": ""}
-    req = Request(headers, json.dumps(valid_data).encode(), URL)
+    #req = Request(URL, json.dumps(valid_data).encode(), headers)
+    req = Request(URL, urlencode(valid_data), headers)
     try:
-        body = json.load(urlopen(req))
-        assert urlopen(req).getcode() == 200
+        res = urlopen(req)
+        body = json.load(res)
+        assert res.getcode() == 200
         assert body["status"] == "success"
         assert body["message"] == "registered"
     except Exception as e:
@@ -40,7 +42,7 @@ def POST_valid():
 
 def POST_invalid():
     invalid_data = {"deadline": "2019/06/11T14:00:00", "title": "report", "memo": ""}
-    req = Request(headers, json.dumps(invalid_data).encode(), URL)
+    req = Request(URL, json.dumps(invalid_data).encode(), headers)
     try:
         urlopen(req)
     except HTTPError as e:
@@ -107,7 +109,7 @@ def GET_id_invalid():
 
 def POST():
     valid_data = {"deadline": "2019-06-11T14:00:00+09:00", "title": "report", "memo": ""}
-    req = Request(headers, json.dumps(valid_data).encode(), URL)
+    req = Request(URL, json.dumps(valid_data).encode(), headers)
     try:
         res = urlopen(req)
         assert res.getcode() == 200
