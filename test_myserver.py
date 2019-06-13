@@ -37,7 +37,6 @@ def POST_valid():
         assert body["message"] == "registered"
     except Exception as e:
         return
-    assert False
 
 def POST_invalid():
     invalid_data = {"deadline": "2019/06/11T14:00:00", "title": "report", "memo": ""}
