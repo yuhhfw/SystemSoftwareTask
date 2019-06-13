@@ -28,8 +28,7 @@ def test_all():
 ## POST
 def POST_valid():
     valid_data = {"deadline": "2019-06-11T14:00:00+09:00", "title": "report", "memo": ""}
-    #req = Request(URL, json.dumps(valid_data).encode(), headers)
-    req = Request(URL, urlencode(valid_data), headers)
+    req = Request(URL, json.dumps(valid_data).encode(), headers)
     try:
         res = urlopen(req)
         body = json.load(res)
