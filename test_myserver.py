@@ -31,6 +31,7 @@ def POST_valid():
     req = Request(URL, json.dumps(valid_data).encode(), headers)
     try:
         body = json.load(urlopen(req))
+        print(str(body))
         assert res.getcode() == 200
         assert body["status"] == "success"
         assert body["message"] == "registered"
@@ -66,7 +67,7 @@ def GET_id_valid():
         maxId = len(body["events"])-1
         if (maxId < 1):
             # 最低2つイベントを発生
-            valid_data = {"deadline": "2019-06-11T14:00:00+09:00", "title": "レポート提出", "memo": ""}
+            valid_data = {"deadline": "2019-06-11T14:00:00+09:00", "title": "report", "memo": ""}
             req_p = Request(URL, json.dumps(valid_data).encode(), headers)
             with urlopen(req_p) as res_p:
                 assert res_p.getcode() == 200
