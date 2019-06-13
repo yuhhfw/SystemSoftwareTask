@@ -27,7 +27,7 @@ def test_all():
 
 ## POST
 def POST_valid():
-    valid_data = {"deadline": "2019-06-11T14:00:00+09:00", "title": "レポート提出", "memo": ""}
+    valid_data = {"deadline": "2019-06-11T14:00:00+09:00", "title": "report", "memo": ""}
     req = Request(URL, json.dumps(valid_data).encode(), headers)
     try:
         body = json.load(urlopen(req))
@@ -40,7 +40,7 @@ def POST_valid():
     assert False
 
 def POST_invalid():
-    invalid_data = {"deadline": "2019/06/11T14:00:00", "title": "レポート提出", "memo": ""}
+    invalid_data = {"deadline": "2019/06/11T14:00:00", "title": "report", "memo": ""}
     req = Request(URL, json.dumps(invalid_data).encode(), headers)
     try:
         urlopen(req)
@@ -71,7 +71,7 @@ def GET_id_valid():
             req_p = Request(URL, json.dumps(valid_data).encode(), headers)
             with urlopen(req_p) as res_p:
                 assert res_p.getcode() == 200
-            valid_data2 = {"deadline": "2019-06-12T14:00:00+09:00", "title": "レポート提出", "memo": ""}
+            valid_data2 = {"deadline": "2019-06-12T14:00:00+09:00", "title": "report", "memo": ""}
             req_p2 = Request(URL, json.dumps(valid_data2).encode(), headers)
             with urlopen(req_p2) as res_p2:
                 assert res_p2.getcode() == 200
