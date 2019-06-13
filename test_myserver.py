@@ -52,11 +52,9 @@ def POST_invalid():
 
 ### GET
 def GET_all():
-    req = Request(URL)
-    with urlopen(req) as res:
-        body = json.load(res)
-        assert res.getcode() == 200
-        assert type(body["events"]) == list
+    body = json.load(urlopen(Request(URL)))
+    assert urlopen(Request(URL)).getcode() == 200
+    assert type(body["events"]) == list
 
 def GET_id_valid():
     # idによるevent取得
@@ -68,10 +66,10 @@ def GET_id_valid():
         req = Request(URL, json.dumps(valid_data).encode(), headers)
         with urlopen(req) as res:
             assert res.getcode() == 200
-        valid_data2 = {"deadline": "2019-06-12T14:00:00+09:00", "title": "レポート提出", "memo": ""}
-        req2 = Request(URL, json.dumps(valid_data).encode(), headers)
-        with urlopen(req2) as res2:
-            assert res2.getcode() == 200
+        valid_data = {"deadline": "2019-06-12T14:00:00+09:00", "title": "レポート提出", "memo": ""}
+        req = Request(URL, json.dumps(valid_data).encode(), headers)
+        with urlopen(req) as res:
+            assert res.getcode() == 200
         body = json.load(urlopen(Request(URL)))
         maxId = len(body["events"])-1
     
