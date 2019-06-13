@@ -46,6 +46,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                 self.send_response(400)
                 self.end_headers()
         else:
+            # id指定なし
             self.send_response(200)
             self.end_headers()
             if event_data != None:
