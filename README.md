@@ -1,10 +1,12 @@
 # SystemSoftwareTask
 
+[![CircleCI](https://circleci.com/gh/yuhhfw/SystemSoftwareTask/tree/master.svg?style=svg)](https://circleci.com/gh/yuhhfw/SystemSoftwareTask/tree/master)
+
+
 レポート課題: TODO管理サービス用のHTTPサーバを作成
 
 ---
 
-エラーが直らない
 
 ## 概要
 
