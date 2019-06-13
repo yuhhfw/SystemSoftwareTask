@@ -78,7 +78,9 @@ class RequestHandler(BaseHTTPRequestHandler):
             content_len = int(self.headers.get('content-length'))
             temp_code = self.rfile.read(content_len).decode('utf-8')
             print(temp_code)
-            event = json.loads(temp_code)
+            temp_code2 = temp_code.replace('[','["').replace(',','","').replace('deadline:','deadline":"').replace('title:','title":"').replace('memo:','memo":"').replace(']','"]')
+            print(temp_code2)
+            event = json.loads(temp_code2)
         except Exception as e:
             print(e)
             #print("なんでや")
